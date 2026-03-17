@@ -1,251 +1,178 @@
 import { motion } from "framer-motion"
 import { useState } from "react"
-import { TrendingUp, Target, Briefcase, Palette, Home, BarChart3 } from "lucide-react"
+import AnimatedButton from "./AnimatedButton"
+import Icon from "@/components/ui/icon"
 
-const businessTypes = [
-  {
-    id: "retail",
-    name: "Ритейл",
-    icon: <Briefcase className="w-6 h-6" />,
-    multiplier: 3.2,
-    description: "E-commerce и магазины",
-  },
-  {
-    id: "real-estate",
-    name: "Недвижимость",
-    icon: <Home className="w-6 h-6" />,
-    multiplier: 4.1,
-    description: "Агенты и управление",
-  },
-  {
-    id: "artist",
-    name: "Креатив",
-    icon: <Palette className="w-6 h-6" />,
-    multiplier: 2.8,
-    description: "Блогеры и артисты",
-  },
-  {
-    id: "professional",
-    name: "B2B услуги",
-    icon: <Target className="w-6 h-6" />,
-    multiplier: 3.7,
-    description: "Консалтинг и сервисы",
-  },
+const directions = [
+  "Медицинское образование / НМО",
+  "Аккредитация медработников",
+  "Рабочие профессии",
+  "Бухгалтерия и финансы",
+  "Кадровое делопроизводство",
+  "IT курсы",
+  "Первая помощь",
+  "Другое",
 ]
 
-// Функция форматирования чисел с пробелами (русская локаль)
-const formatRub = (num: number) => {
-  return num.toLocaleString('ru-RU')
-}
-
 export default function ROICalculatorHome() {
-  // Бюджет в рублях (100 000 - 2 500 000)
-  const [selectedBudget, setSelectedBudget] = useState(500000)
-  const [selectedBusiness, setSelectedBusiness] = useState("retail")
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    direction: "",
+    comment: "",
+  })
+  const [submitted, setSubmitted] = useState(false)
 
-  const selectedBusinessType = businessTypes.find((b) => b.id === selectedBusiness)
-  const multiplier = selectedBusinessType?.multiplier || 3.2
-
-  const calculateROI = (budget: number) => {
-    const baseReturn = budget * multiplier
-    const scaleFactor = budget / 1000000
-    return Math.round(baseReturn * (1 + scaleFactor * 0.3))
-  }
-
-  const calculateMonthlyRevenue = (budget: number) => {
-    return Math.round(calculateROI(budget) / 12)
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setSubmitted(true)
+    setTimeout(() => setSubmitted(false), 4000)
+    setFormData({ name: "", phone: "", direction: "", comment: "" })
   }
 
   return (
-    <section className="py-24 bg-black relative backdrop-blur-sm">
+    <section id="contact" className="py-24 bg-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">Рассчитайте ROI</h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Узнайте, какую выручку вы можете получить с нашими маркетинговыми стратегиями
-          </p>
-        </motion.div>
-
-        <div className="bg-gray-900/40 border border-gray-700/30 rounded-3xl p-8 backdrop-blur-sm relative overflow-hidden">
-          {/* Subtle animated background */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          {/* Left: Info */}
           <motion.div
-            className="absolute inset-0 opacity-20"
-            animate={{
-              background: [
-                "radial-gradient(circle at 20% 20%, rgba(59,130,246,0.1) 0%, transparent 50%)",
-                "radial-gradient(circle at 80% 80%, rgba(147,51,234,0.1) 0%, transparent 50%)",
-                "radial-gradient(circle at 20% 80%, rgba(34,197,94,0.1) 0%, transparent 50%)",
-                "radial-gradient(circle at 80% 20%, rgba(249,115,22,0.1) 0%, transparent 50%)",
-                "radial-gradient(circle at 20% 20%, rgba(59,130,246,0.1) 0%, transparent 50%)",
-              ],
-            }}
-            transition={{ duration: 15, repeat: Infinity }}
-          />
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <div className="inline-flex items-center px-4 py-2 bg-blue-50 border border-blue-200 rounded-full text-sm text-blue-700 font-medium mb-6">
+              Связаться с нами
+            </div>
+            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
+              Оставьте заявку — <span className="text-blue-700">мы поможем</span> выбрать программу
+            </h2>
+            <p className="text-lg text-gray-600 leading-relaxed mb-10">
+              Менеджер свяжется с вами в течение рабочего дня, ответит на вопросы и подберёт подходящее обучение.
+            </p>
 
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Controls */}
-            <div className="space-y-8">
-              {/* Business Type Selection */}
-              <div>
-                <label className="block text-lg font-medium text-white mb-4">Выберите тип бизнеса</label>
-                <div className="grid grid-cols-2 gap-3">
-                  {businessTypes.map((business) => (
-                    <motion.button
-                      key={business.id}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => setSelectedBusiness(business.id)}
-                      className={`p-4 rounded-xl border transition-all duration-200 text-left ${
-                        selectedBusiness === business.id
-                          ? "bg-blue-500/20 border-blue-500/50 text-white"
-                          : "bg-gray-800/50 border-gray-700/50 text-gray-300 hover:border-gray-600/50"
-                      }`}
-                    >
-                      <div className="flex items-center space-x-3 mb-2">
-                        <div
-                          className={`p-2 rounded-lg ${
-                            selectedBusiness === business.id ? "bg-blue-500/30" : "bg-gray-700/50"
-                          }`}
-                        >
-                          {business.icon}
-                        </div>
-                        <div>
-                          <div className="font-medium">{business.name}</div>
-                          <div className="text-xs opacity-70">{business.description}</div>
-                        </div>
-                      </div>
-                    </motion.button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Budget Slider */}
-              <div>
-                <label className="block text-lg font-medium text-white mb-4">Месячный бюджет на маркетинг</label>
-                <div className="relative">
-                  <input
-                    type="range"
-                    min="100000"
-                    max="2500000"
-                    step="50000"
-                    value={selectedBudget}
-                    onChange={(e) => setSelectedBudget(Number(e.target.value))}
-                    className="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-                    style={{
-                      background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${((selectedBudget - 100000) / (2500000 - 100000)) * 100}%, #374151 ${((selectedBudget - 100000) / (2500000 - 100000)) * 100}%, #374151 100%)`,
-                    }}
-                  />
-                  <div className="flex justify-between text-sm text-gray-400 mt-2">
-                    <span>100 тыс.</span>
-                    <span>2.5 млн</span>
+            {/* Contacts */}
+            <div className="space-y-4 mb-10">
+              {[
+                { icon: "Phone", label: "Телефон", value: "8 800 000-00-00", href: "tel:+78000000000" },
+                { icon: "MessageCircle", label: "WhatsApp", value: "Написать в WhatsApp", href: "https://wa.me/79000000000" },
+                { icon: "Send", label: "Telegram", value: "@filin_edu", href: "https://t.me/filin_edu" },
+                { icon: "Mail", label: "Email", value: "info@filin-edu.ru", href: "mailto:info@filin-edu.ru" },
+                { icon: "MapPin", label: "Адрес", value: "г. Москва, Россия", href: "#" },
+              ].map((contact) => (
+                <a
+                  key={contact.label}
+                  href={contact.href}
+                  className="flex items-center space-x-4 group"
+                >
+                  <div className="w-10 h-10 bg-blue-50 border border-blue-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-blue-700 transition-colors">
+                    <Icon name={contact.icon} className="w-5 h-5 text-blue-700 group-hover:text-white transition-colors" />
                   </div>
-                </div>
-                <div className="text-center mt-4">
-                  <span className="text-3xl font-bold text-white">{formatRub(selectedBudget)} &#8381;</span>
-                  <span className="text-gray-400 ml-2">в месяц</span>
-                </div>
-              </div>
-
-              {/* Data Disclaimer */}
-              <div className="bg-gray-800/30 border border-gray-700/50 rounded-xl p-4">
-                <div className="flex items-center space-x-3 mb-2">
-                  <BarChart3 className="w-5 h-5 text-blue-400" />
-                  <span className="text-sm font-medium text-white">На основе реальных данных</span>
-                </div>
-                <p className="text-xs text-gray-400 leading-relaxed">
-                  Прогнозы основаны на реальных показателях наших клиентов из аналогичных
-                  отраслей и бюджетных категорий. Индивидуальные результаты могут отличаться.
-                </p>
-              </div>
+                  <div>
+                    <div className="text-xs text-gray-400">{contact.label}</div>
+                    <div className="text-gray-700 font-medium group-hover:text-blue-700 transition-colors">{contact.value}</div>
+                  </div>
+                </a>
+              ))}
             </div>
 
-            {/* Results */}
-            <div className="space-y-8">
-              {/* ROI Circle */}
-              <div className="relative w-48 h-48 mx-auto">
-                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="35"
-                    stroke="currentColor"
-                    strokeWidth="6"
-                    fill="none"
-                    className="text-gray-700"
-                  />
-                  <motion.circle
-                    cx="50"
-                    cy="50"
-                    r="35"
-                    stroke="url(#gradient)"
-                    strokeWidth="6"
-                    fill="none"
-                    strokeLinecap="round"
-                    initial={{ strokeDasharray: "0 219.8" }}
-                    animate={{
-                      strokeDasharray: `${Math.min((calculateROI(selectedBudget) / (selectedBudget * 8)) * 219.8, 219.8)} 219.8`,
-                    }}
-                    transition={{ duration: 1, ease: "easeOut" }}
-                  />
-                  <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#3b82f6" />
-                      <stop offset="50%" stopColor="#8b5cf6" />
-                      <stop offset="100%" stopColor="#06d6a0" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <motion.div
-                      key={`${selectedBudget}-${selectedBusiness}`}
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      className="text-2xl font-bold text-white"
-                    >
-                      {Math.round((calculateROI(selectedBudget) / selectedBudget) * 100)}%
-                    </motion.div>
-                    <div className="text-gray-400 text-sm">ROI</div>
-                  </div>
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-4">
+              {[
+                { num: "5 000+", label: "специалистов обучено" },
+                { num: "200+", label: "программ" },
+                { num: "Вся Россия", label: "дистанционно" },
+              ].map((stat) => (
+                <div key={stat.num} className="text-center bg-gray-50 border border-gray-100 rounded-xl p-4">
+                  <div className="text-xl font-bold text-blue-700">{stat.num}</div>
+                  <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
                 </div>
-              </div>
-
-              {/* Revenue Cards */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-gray-800/50 rounded-2xl p-6 border border-gray-700/50 text-center">
-                  <div className="w-8 h-8 text-green-400 mx-auto mb-2 flex items-center justify-center text-2xl font-bold">&#8381;</div>
-                  <motion.div
-                    key={`monthly-${selectedBudget}-${selectedBusiness}`}
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    className="text-2xl font-bold text-white mb-1"
-                  >
-                    {formatRub(calculateMonthlyRevenue(selectedBudget))}
-                  </motion.div>
-                  <div className="text-gray-400 text-sm">Выручка/мес</div>
-                </div>
-
-                <div className="bg-gray-800/50 rounded-2xl p-6 border border-gray-700/50 text-center">
-                  <TrendingUp className="w-8 h-8 text-blue-400 mx-auto mb-2" />
-                  <motion.div
-                    key={`annual-${selectedBudget}-${selectedBusiness}`}
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    className="text-2xl font-bold text-white mb-1"
-                  >
-                    {formatRub(calculateROI(selectedBudget))}
-                  </motion.div>
-                  <div className="text-gray-400 text-sm">Выручка/год</div>
-                </div>
-              </div>
+              ))}
             </div>
-          </div>
+          </motion.div>
+
+          {/* Right: Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <div className="bg-gray-50 border border-gray-200 rounded-3xl p-8">
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Подать заявку</h3>
+              <p className="text-gray-500 mb-8 text-sm">Заполните форму — мы перезвоним вам в течение рабочего дня.</p>
+
+              {submitted ? (
+                <div className="text-center py-12">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Icon name="CheckCircle" className="w-8 h-8 text-green-600" />
+                  </div>
+                  <h4 className="text-xl font-bold text-gray-900 mb-2">Заявка отправлена!</h4>
+                  <p className="text-gray-500">Мы свяжемся с вами в ближайшее время.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Ваше имя *</label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="Иван Иванов"
+                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Телефон *</label>
+                    <input
+                      type="tel"
+                      required
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      placeholder="+7 (999) 000-00-00"
+                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Направление обучения</label>
+                    <select
+                      value={formData.direction}
+                      onChange={(e) => setFormData({ ...formData, direction: e.target.value })}
+                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all appearance-none"
+                    >
+                      <option value="">Выберите направление</option>
+                      {directions.map((d) => (
+                        <option key={d} value={d}>{d}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Комментарий</label>
+                    <textarea
+                      rows={3}
+                      value={formData.comment}
+                      onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
+                      placeholder="Уточните программу или задайте вопрос..."
+                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all resize-none"
+                    />
+                  </div>
+                  <AnimatedButton
+                    type="submit"
+                    className="w-full bg-blue-700 text-white hover:bg-blue-800 font-semibold py-4 text-base"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      Отправить заявку
+                      <Icon name="ArrowRight" className="w-4 h-4" />
+                    </span>
+                  </AnimatedButton>
+                  <p className="text-xs text-gray-400 text-center">
+                    Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+                  </p>
+                </form>
+              )}
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

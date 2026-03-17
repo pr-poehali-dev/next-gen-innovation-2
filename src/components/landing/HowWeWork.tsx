@@ -1,36 +1,52 @@
 import { motion } from "framer-motion"
-import { Search, Lightbulb, Rocket } from "lucide-react"
+import Icon from "@/components/ui/icon"
 
 const steps = [
   {
     number: "01",
-    title: "Анализ и стратегия",
-    description: "Глубоко погружаемся в ваши задачи, исследуем идеи и формируем стратегию для долгосрочного успеха.",
-    icon: <Search className="w-8 h-8" />,
-    mockup: "discovery",
-    gradient: "from-blue-500/20 to-blue-600/10",
+    title: "Оставляете заявку",
+    description: "Заполняете форму или звоните нам. Менеджер свяжется с вами в течение рабочего дня и поможет выбрать подходящую программу.",
+    icon: "ClipboardList",
+    gradient: "from-blue-500/10 to-blue-600/5",
+    borderColor: "border-blue-200",
+    iconBg: "bg-blue-50",
+    iconColor: "text-blue-700",
   },
   {
     number: "02",
-    title: "Разработка и тесты",
-    description: "Создаем решения под ваши цели и тщательно тестируем их для максимальной надежности.",
-    icon: <Lightbulb className="w-8 h-8" />,
-    mockup: "development",
-    gradient: "from-purple-500/20 to-purple-600/10",
+    title: "Получаете доступ",
+    description: "После оформления договора и оплаты вам открывают доступ в личный кабинет с учебными материалами.",
+    icon: "KeyRound",
+    gradient: "from-green-500/10 to-green-600/5",
+    borderColor: "border-green-200",
+    iconBg: "bg-green-50",
+    iconColor: "text-green-700",
   },
   {
     number: "03",
-    title: "Запуск и поддержка",
-    description: "Бесшовно внедряем решение и обеспечиваем его стабильную работу с постоянной поддержкой.",
-    icon: <Rocket className="w-8 h-8" />,
-    mockup: "launch",
-    gradient: "from-green-500/20 to-green-600/10",
+    title: "Проходите обучение",
+    description: "Изучаете материалы в удобном темпе. Куратор всегда на связи и готов ответить на вопросы по программе.",
+    icon: "BookOpenCheck",
+    gradient: "from-purple-500/10 to-purple-600/5",
+    borderColor: "border-purple-200",
+    iconBg: "bg-purple-50",
+    iconColor: "text-purple-700",
+  },
+  {
+    number: "04",
+    title: "Получаете документы",
+    description: "По итогам обучения получаете удостоверение или диплом установленного образца. Данные вносятся в ФРДО.",
+    icon: "FileCheck2",
+    gradient: "from-orange-500/10 to-orange-600/5",
+    borderColor: "border-orange-200",
+    iconBg: "bg-orange-50",
+    iconColor: "text-orange-700",
   },
 ]
 
 export default function HowWeWork() {
   return (
-    <section className="py-24 bg-black relative">
+    <section className="py-24 bg-gray-50 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -39,134 +55,36 @@ export default function HowWeWork() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">Как мы работаем</h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Простой и эффективный подход к развитию вашего бренда на высшем уровне.
+          <div className="inline-flex items-center px-4 py-2 bg-blue-50 border border-blue-200 rounded-full text-sm text-blue-700 font-medium mb-4">
+            Как это работает
+          </div>
+          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">Как проходит обучение</h2>
+          <p className="text-xl text-gray-500 max-w-3xl mx-auto">
+            Всего 4 простых шага от заявки до получения официального документа.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {steps.map((step, index) => (
             <motion.div
               key={step.number}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
               viewport={{ once: true }}
-              whileHover={{ y: -10 }}
-              className={`bg-gradient-to-br ${step.gradient} border border-gray-800/50 rounded-3xl p-8 backdrop-blur-sm hover:border-gray-700/50 transition-all duration-300 group`}
+              whileHover={{ y: -6 }}
+              className={`bg-gradient-to-br ${step.gradient} border ${step.borderColor} rounded-2xl p-7 transition-all duration-300 group relative`}
             >
-              {/* Mockup Area */}
-              <div className="aspect-video bg-gray-900 rounded-2xl mb-6 overflow-hidden relative border border-gray-800">
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 p-4">
-                  {/* Discovery Mockup */}
-                  {step.mockup === "discovery" && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      transition={{ duration: 1, delay: index * 0.3 }}
-                      className="w-full h-full flex items-center justify-center"
-                    >
-                      <div className="w-full max-w-[200px] space-y-3">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                            <div className="w-3 h-3 bg-blue-500 rounded"></div>
-                          </div>
-                          <div className="flex-1 space-y-1">
-                            <div className="bg-gray-700 h-2 w-full rounded"></div>
-                            <div className="bg-gray-700 h-2 w-3/4 rounded"></div>
-                          </div>
-                        </div>
-                        <div className="grid grid-cols-2 gap-2">
-                          <div className="bg-gray-700 h-12 rounded-lg"></div>
-                          <div className="bg-gray-700 h-12 rounded-lg"></div>
-                        </div>
-                        <div className="bg-gray-700 h-8 w-full rounded"></div>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {/* Development Mockup */}
-                  {step.mockup === "development" && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      transition={{ duration: 1, delay: index * 0.3 }}
-                      className="w-full h-full flex items-center justify-center"
-                    >
-                      <div className="w-full max-w-[200px] space-y-3">
-                        <div className="bg-gray-800 rounded-lg p-3">
-                          <div className="flex items-center space-x-2 mb-2">
-                            <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                            <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="bg-gray-700 h-2 w-full rounded"></div>
-                            <div className="bg-gray-700 h-2 w-2/3 rounded"></div>
-                            <div className="bg-purple-500 h-2 w-1/2 rounded"></div>
-                          </div>
-                        </div>
-                        <div className="flex space-x-2">
-                          <div className="bg-gray-700 h-8 flex-1 rounded"></div>
-                          <div className="bg-purple-500 h-8 w-16 rounded"></div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {/* Launch Mockup */}
-                  {step.mockup === "launch" && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      transition={{ duration: 1, delay: index * 0.3 }}
-                      className="w-full h-full flex items-center justify-center"
-                    >
-                      <div className="w-full max-w-[200px] space-y-3">
-                        <div className="flex items-center justify-between">
-                          <div className="text-xs text-gray-400">Статус</div>
-                          <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                            className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full"
-                          ></motion.div>
-                        </div>
-                        <div className="space-y-2">
-                          <div className="flex items-center space-x-2">
-                            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                            <div className="text-xs text-gray-300">Безопасность</div>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                            <div className="text-xs text-gray-300">Эффективность</div>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                            <div className="text-xs text-gray-300">Скорость</div>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                            <div className="text-xs text-gray-300">Обновление...</div>
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </div>
+              <div className="text-5xl font-black text-gray-100 absolute top-4 right-5 select-none">
+                {step.number}
               </div>
-
-              {/* Content */}
-              <div className="space-y-4">
-                <div className="flex items-center space-x-4">
-                  <div className="text-4xl font-bold text-gray-600">{step.number}</div>
-                  <div className="text-blue-400">{step.icon}</div>
-                </div>
-                <h3 className="text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">
-                  {step.title}
-                </h3>
-                <p className="text-gray-400 leading-relaxed">{step.description}</p>
+              <div className={`w-14 h-14 ${step.iconBg} rounded-xl flex items-center justify-center mb-5`}>
+                <Icon name={step.icon} className={`w-7 h-7 ${step.iconColor}`} />
               </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-700 transition-colors">
+                {step.title}
+              </h3>
+              <p className="text-gray-600 leading-relaxed text-sm">{step.description}</p>
             </motion.div>
           ))}
         </div>

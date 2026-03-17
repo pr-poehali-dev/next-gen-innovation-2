@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
 import { useState } from "react"
 import { motion } from "framer-motion"
 import AnimatedButton from "./AnimatedButton"
+import Icon from "@/components/ui/icon"
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -10,106 +10,90 @@ export default function Navbar() {
   return (
     <header className="fixed top-4 left-4 right-4 z-50 mx-auto max-w-7xl">
       <motion.nav
-        className="relative bg-gray-900/60 backdrop-blur-md border rounded-2xl shadow-lg overflow-hidden"
+        className="relative bg-white/90 backdrop-blur-md border rounded-2xl shadow-lg overflow-hidden"
         animate={{
           borderColor: [
-            "rgba(59, 130, 246, 0.3)",
-            "rgba(147, 51, 234, 0.3)",
-            "rgba(236, 72, 153, 0.3)",
-            "rgba(34, 197, 94, 0.3)",
-            "rgba(59, 130, 246, 0.3)",
+            "rgba(30, 64, 175, 0.3)",
+            "rgba(30, 64, 175, 0.5)",
+            "rgba(30, 64, 175, 0.3)",
           ],
         }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "linear",
-        }}
+        transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
       >
-        {/* Animated border glow */}
-        <motion.div
-          className="absolute inset-0 rounded-2xl"
-          animate={{
-            boxShadow: [
-              "0 0 20px rgba(59, 130, 246, 0.2)",
-              "0 0 20px rgba(147, 51, 234, 0.2)",
-              "0 0 20px rgba(236, 72, 153, 0.2)",
-              "0 0 20px rgba(34, 197, 94, 0.2)",
-              "0 0 20px rgba(59, 130, 246, 0.2)",
-            ],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        />
-
         <div className="relative z-10 px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <a href="/" className="flex items-center space-x-3">
-                <span className="text-xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                  Pulse Digital
+              <a href="/" className="flex items-center space-x-2">
+                <div className="w-8 h-8 bg-blue-700 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">Ф</span>
+                </div>
+                <span className="text-lg font-bold text-gray-900">
+                  Кадровый центр <span className="text-blue-700">«Филин»</span>
                 </span>
               </a>
             </div>
 
             <div className="hidden md:block">
               <div className="flex items-center space-x-8">
-                <a href="#services" className="text-sm text-gray-300 hover:text-blue-400 transition-colors">
-                  Услуги
+                <a href="#directions" className="text-sm text-gray-600 hover:text-blue-700 transition-colors font-medium">
+                  Направления
                 </a>
-                <a href="#artists" className="text-sm text-gray-300 hover:text-purple-400 transition-colors">
-                  Клиенты
+                <a href="#programs" className="text-sm text-gray-600 hover:text-blue-700 transition-colors font-medium">
+                  Программы
                 </a>
-                <a href="#success-stories" className="text-sm text-gray-300 hover:text-green-400 transition-colors">
-                  Кейсы
+                <a href="#about" className="text-sm text-gray-600 hover:text-blue-700 transition-colors font-medium">
+                  О центре
                 </a>
-                <a href="#contact" className="text-sm text-gray-300 hover:text-orange-400 transition-colors">
+                <a href="#contact" className="text-sm text-gray-600 hover:text-blue-700 transition-colors font-medium">
                   Контакты
                 </a>
               </div>
             </div>
 
-            <div className="hidden md:flex items-center space-x-4">
-              <Button variant="ghost" className="text-sm text-gray-300 hover:text-white">
-                Войти
-              </Button>
-              <a href="#get-started">
-                <AnimatedButton size="sm" className="bg-white text-black hover:bg-gray-100">
-                  Начать
+            <div className="hidden md:flex items-center space-x-3">
+              <a href="tel:+78001234567">
+                <Button variant="ghost" className="text-sm text-gray-700 hover:text-blue-700">
+                  8 800 000-00-00
+                </Button>
+              </a>
+              <a href="#contact">
+                <AnimatedButton size="sm" className="bg-blue-700 text-white hover:bg-blue-800">
+                  Получить консультацию
                 </AnimatedButton>
               </a>
             </div>
 
             <div className="md:hidden">
               <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                {isMenuOpen ? <X className="h-5 w-5 text-gray-300" /> : <Menu className="h-5 w-5 text-gray-300" />}
+                {isMenuOpen
+                  ? <Icon name="X" className="h-5 w-5 text-gray-700" />
+                  : <Icon name="Menu" className="h-5 w-5 text-gray-700" />
+                }
               </Button>
             </div>
           </div>
         </div>
 
-        {/* Mobile menu */}
         {isMenuOpen && (
-          <div className="md:hidden border-t border-gray-700/50 bg-gray-900/80 backdrop-blur-md rounded-b-2xl">
+          <div className="md:hidden border-t border-gray-200 bg-white rounded-b-2xl">
             <div className="px-6 py-4 space-y-3">
-              <a href="#services" className="block text-gray-300 hover:text-blue-400">
-                Услуги
+              <a href="#directions" className="block text-gray-700 hover:text-blue-700 font-medium" onClick={() => setIsMenuOpen(false)}>
+                Направления
               </a>
-              <a href="#artists" className="block text-gray-300 hover:text-purple-400">
-                Клиенты
+              <a href="#programs" className="block text-gray-700 hover:text-blue-700 font-medium" onClick={() => setIsMenuOpen(false)}>
+                Программы
               </a>
-              <a href="#success-stories" className="block text-gray-300 hover:text-green-400">
-                Кейсы
+              <a href="#about" className="block text-gray-700 hover:text-blue-700 font-medium" onClick={() => setIsMenuOpen(false)}>
+                О центре
               </a>
-              <a href="#contact" className="block text-gray-300 hover:text-orange-400">
+              <a href="#contact" className="block text-gray-700 hover:text-blue-700 font-medium" onClick={() => setIsMenuOpen(false)}>
                 Контакты
               </a>
-              <div className="pt-3 border-t border-gray-700">
-                <a href="#get-started" className="block">
-                  <AnimatedButton className="w-full bg-white text-black hover:bg-gray-100">Начать</AnimatedButton>
+              <div className="pt-3 border-t border-gray-200">
+                <a href="#contact" className="block">
+                  <AnimatedButton className="w-full bg-blue-700 text-white hover:bg-blue-800">
+                    Получить консультацию
+                  </AnimatedButton>
                 </a>
               </div>
             </div>
